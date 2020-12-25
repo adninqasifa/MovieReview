@@ -18,3 +18,11 @@ export const chDetail = (payload) => {
 export const chVisibility = (payload) => {
   return {type: ACTION.SET_VISIBILITY, payload: payload}
 }
+
+export const showForm = (payload) => {
+  return {type: ACTION.SHOW_FORM_STAR, payload: payload}
+}
+
+export const registrationForm = (payload) => {
+  return {type: ACTION.REGISTERED_REQUESTED, payload: payload}
+}

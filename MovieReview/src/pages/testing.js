@@ -1,78 +1,149 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  TextInput,
+  FlatList,
+} from 'react-native';
 
-const HelloWorldApp = () => {
+import {useSelector, useDispatch} from 'react-redux';
+
+import {Categories} from '../assets/genre';
+import {chList} from '../store/action';
+import Card from '../components/MovieCard';
+import ModalDetail from '../components/ModalDetail';
+
+const HomePage = ({navigation}) => {
+  const dispatch = useDispatch();
+  const [movies, setMovies] = useState('');
+  const [categories, setCategories] = useState('All');
+  const [idMovie, setIdMovie] = useState(0);
+  const movieListHomePage = useSelector((state) => state.listed);
+
+  useEffect(() => {
+    dispatch(chList(idMovie));
+  },[idMovie]);
+
+  function search() {
+    return (
+      <View>
+        <TextInput
+          style={styles.inputText}
+          placeholder="Search movies"
+          onChangeText={(value) => setMovies(value)}
+          value={movies}
+        />
+      </View>
+    );
+  }
+
+  function genre() {
+    const renderItem = ({item}) => {
+      return (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setIdMovie(item.id)
+            setCategories(item.category)
+          }}>
+          <Text style={{fontSize: 17, color: categories == item.category}}> {item.category}</Text>
+        </TouchableOpacity>
+      );
+    };
+    return (
+      <FlatList
+        data={Categories}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+      />
+    );
+  }
+
+  function movie() {
+    const renderItem = ({item}) => {
+      return (
+        <View style={{alignItems: 'center'}}>
+          <Card
+            title={item.original_title}
+            synopsis={item.overview}
+            //imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+            backDrop={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}
+            average_rating={item.vote_average}
+            releaseDate={item.release_date}
+            genre={categories}
+            //idOfMovie={item.id}
+            rating_count={item.vote_count}
+            onPress={() => navigation.push('Home Page Details')}
+          />
+        </View>
+      );
+    };
+    return (
+      <FlatList
+        data={movieListHomePage.listMovies}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItem}
+      />
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={{color: "#FFFFFF"}}>Hello world!</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={{alignItems: 'center'}}>
+        {search()}
+      </View>
+      <Text style={{color: '#E5E5E5', fontSize: 25}}>Best Genres</Text>
+      {genre()}
+      <Text style={{color: '#E5E5E5', fontSize: 25}}>
+        Hot {categories} Movies
+      </Text>
+      {movie()}
+      <View style={{alignItems: 'center'}}>
+        <TouchableOpacity style={styles.button}
+          onPress={() => navigation.push('Login Page')}>
+          <Text style={{color: '#E5E5E5', textAlign: 'center'}}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+      <ModalDetail/>
+    </SafeAreaView>
   );
 };
 
-export default HelloWorldApp;
+export default HomePage;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#343434',
+    //alignItems: 'center',
+  },
+  button: {
+    flexDirection: 'row',
+    width: 130,
+    height: 30,
+    backgroundColor: '#FCA311',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+    borderRadius: 5,
+    marginVertical: 10,
+    marginHorizontal: 2,
+    marginBottom: 30,
+  },
+  inputText: {
+    alignItems: 'center',
+    marginTop: 5,
+    marginBottom: 5,
+    width: 300,
+    height: 50,
+    borderWidth: 5,
+    borderRadius: 5,
+    color: '#000000',
+    backgroundColor: '#E5E5E5',
+    padding: 10,
+  },
 });
-
-
-
-
-
-
-
-// import React, {useState, useEffect} from 'react';
-// import { StyleSheet, Text, View, Modal, Image, TouchableOpacity, Dimensions} from 'react-native';
-// import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-// import {useSelector, useDispatch} from 'react-redux';
-// import { faSearch,faFilm, faStar, faShareAlt } from '@fortawesome/free-solid-svg-icons';
-// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-//
-// import STYLES from '../assets/styles/style';
-// import COLOR from '../assets/color/color';
-//
-// const HelloWorldApp = () => {
-//   const [formStar, setFormStar] = useState(false);
-//   const renderItem = ({item})=> {
-//
-//   return (
-//     <View >
-//       <Image source={{uri:`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}} />
-//       <Text numberOfLines={2} style={{fontSize: 18, fontWeight:"bold", margin: 5}}>{item.original_title}</Text>
-//       <Text style={{fontSize: 18, fontWeight:"bold"}}>{item.release_date.substring(0,4)} | {item.genres[0].name}</Text>
-//       <Image source={{uri:`https://image.tmdb.org/t/p/w500/${item.poster_path}`}} />
-//       <Text style={{fontWeight: "bold"}}>{item.vote_average}</Text><Text>/10</Text>
-//       <TouchableOpacity style={{alignItems: "center"}} onPress={()=>
-//         {
-//           setFormStar(true);
-//         }
-//       }>
-//         <Text>Rate This</Text>
-//       </TouchableOpacity>
-//       <Text numberOfLines={7} style={{fontSize: 16, left:5}}>{modalDetails.overview}</Text>
-//       <TouchableOpacity style={{flexDirection: "row", alignItems: "center"}}
-//         onPress={()=>{
-//           navigation.navigate("ReviewAll", {movie_id: `${modalDetails.id}`, name: `Reviews' of ${modalDetails.original_title}`})
-//           dispatch(chVisibility(false))
-//         }}>
-//         <Text style={{fontSize: 18}}> {modalDetails.vote_count}</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-//
-// export default HelloWorldApp;
-//
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#343434',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   }
-// });

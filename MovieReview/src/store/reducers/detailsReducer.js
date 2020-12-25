@@ -16,7 +16,6 @@ export default function detailsReducer (state = initialState, action) {
   const {type, payload} = action
   switch(type){
     case ACTION.SET_DETAIL_PAGE:
-      console.log(payload)
       return {...state, ...payload, visible:true};
     case ACTION.SET_VISIBILITY:
       return {...state, visible:false}

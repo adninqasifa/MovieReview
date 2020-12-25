@@ -1,10 +1,8 @@
 import ACTION from '../types'
 const initialState={
-  error: '',
-  email: '',
-  password:'',
+  redirect:false,
+  error:'',
 }
-
 export default function userReducer (state=initialState, action){
   const {type, payload} = action
   switch (type){
@@ -17,6 +15,14 @@ export default function userReducer (state=initialState, action){
       return {
         ...state,
         password:payload
+      }
+    case ACTION.REGISTERED_SUCCESS:
+      return {
+        ...state, token: payload, redirect: true
+      }
+    case ACTION.REGISTERED_FAILED:
+      return {
+        ...state, error: payload,
       }
     default:
       return state
