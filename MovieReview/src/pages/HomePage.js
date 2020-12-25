@@ -14,6 +14,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Categories} from '../assets/genre';
 import {chList} from '../store/action';
 import Card from '../components/MovieCard';
+import ModalDetail from '../components/ModalDetail';
 
 const HomePage = ({navigation}) => {
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const HomePage = ({navigation}) => {
           <Card
             title={item.original_title}
             synopsis={item.overview}
-            imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+            //imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
             backDrop={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}
             average_rating={item.vote_average}
             releaseDate={item.release_date}
@@ -108,6 +109,7 @@ const HomePage = ({navigation}) => {
           <Text style={{color: '#E5E5E5', textAlign: 'center'}}>Go Back</Text>
         </TouchableOpacity>
       </View>
+      <ModalDetail/>
     </SafeAreaView>
   );
 };
