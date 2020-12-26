@@ -12,8 +12,8 @@ function SplashScreenPage({ navigation }) {
   return (
     <View style={styles.container}>
       <Logo width={200} height={200}/>
-      <Text style={{color: '#E5E5E5', fontSize:30}}>Created with Love by Team-G</Text>
-      <Text style={{color: '#E5E5E5', fontSize:30}}>MOVIE REVIEW</Text>
+      <Text style={{color: '#E5E5E5', fontSize:20}}>MOVIE REVIEW</Text>
+      <Text style={{color: '#E5E5E5', fontSize:20}}>Created with Love by Team-G</Text>
     </View>
 
   )

@@ -9,10 +9,9 @@ import {
 } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
-import {faShareAlt} from '@fortawesome/free-solid-svg-icons';
-import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {chDetail} from '../store/action';
+import {useNavigation} from '@react-navigation/native';
 
 const Card = ({
   title,
@@ -27,19 +26,26 @@ const Card = ({
 }) => {
   const navigation = useNavigation();
   const year = releaseDate.substring(0,4);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
-    <View style = {styles.cardMovie}>
+    <View style={styles.cardMovie}>
       <View style={{flex: 1, alignItems: 'center', margin: 10}}>
-        <TouchableOpacity onPress={()=>{dispatch(chDetail(idOfMovie))/*navigation.navigate("MovieDetails", {name: `Details' of ${title}`, title, synopsis, imageSource, backDrop, average_rating, releaseDate, genre, idOfMovie, rating_count})*/}}>
-          <Image source={{uri:backDrop}} style = {styles.imageMovie}/>
-          <Text style = {styles.title}>{title} ({year})</Text>
-          <Text numberOfLines={2} style = {styles.synopsis}>{synopsis}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(chDetail(idOfMovie));
+          }}>
+          <Image source={{uri: backDrop}} style={styles.imageMovie} />
+          <Text style={styles.title}>
+            {title} ({year})
+          </Text>
+          <Text numberOfLines={2} style={styles.synopsis}>
+            {synopsis}
+          </Text>
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity onPress={()=>navigation.navigate("Home Page Add Review", {movie_id: idOfMovie, name: `Reviews' of ${title}`})}>
-          <Entypo name="message" size={30} color={'#343434'}/>
+        <TouchableOpacity>
+          <Entypo name="message" size={30} color="#343434" />
         </TouchableOpacity>
       </View>
     </View>
@@ -72,3 +78,9 @@ const styles = StyleSheet.create({
     color: '#343434',
   },
 });
+
+//onPress={() => navigation.push('Home Page Details')}>
+
+// onPress={() => {
+//   dispatch(chDetail(idOfMovie));
+// }}>

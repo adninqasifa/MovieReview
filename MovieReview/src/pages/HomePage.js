@@ -15,6 +15,7 @@ import {Categories} from '../assets/genre';
 import {chList} from '../store/action';
 import Card from '../components/MovieCard';
 import ModalDetail from '../components/ModalDetail';
+import ModalStar from '../components/ModalStar';
 
 const HomePage = ({navigation}) => {
   const dispatch = useDispatch();
@@ -46,8 +47,8 @@ const HomePage = ({navigation}) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            setIdMovie(item.id)
-            setCategories(item.category)
+            setIdMovie(item.id);
+            setCategories(item.category);
           }}>
           <Text style={{fontSize: 17, color: categories == item.category}}> {item.category}</Text>
         </TouchableOpacity>
@@ -58,7 +59,7 @@ const HomePage = ({navigation}) => {
         data={Categories}
         horizontal
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
       />
     );
@@ -71,14 +72,13 @@ const HomePage = ({navigation}) => {
           <Card
             title={item.original_title}
             synopsis={item.overview}
-            //imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+            imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
             backDrop={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}
             average_rating={item.vote_average}
             releaseDate={item.release_date}
             genre={categories}
-            //idOfMovie={item.id}
+            idOfMovie={item.id}
             rating_count={item.vote_count}
-            onPress={() => navigation.push('Home Page Details')}
           />
         </View>
       );
@@ -94,9 +94,9 @@ const HomePage = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{alignItems: 'center'}}>
-        {search()}
-      </View>
+      <ModalDetail />
+      <ModalStar />
+      <View style={{alignItems: 'center'}}>{search()}</View>
       <Text style={{color: '#E5E5E5', fontSize: 25}}>Best Genres</Text>
       {genre()}
       <Text style={{color: '#E5E5E5', fontSize: 25}}>
@@ -109,7 +109,6 @@ const HomePage = ({navigation}) => {
           <Text style={{color: '#E5E5E5', textAlign: 'center'}}>Go Back</Text>
         </TouchableOpacity>
       </View>
-      <ModalDetail/>
     </SafeAreaView>
   );
 };
@@ -120,7 +119,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#343434',
-    //alignItems: 'center',
   },
   button: {
     flexDirection: 'row',

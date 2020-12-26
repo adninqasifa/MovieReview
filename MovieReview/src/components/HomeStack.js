@@ -9,10 +9,8 @@ import HomePage from '../pages/HomePage';
 import ReviewPage from '../pages/ReviewPage';
 import ProfilePage from '../pages/ProfilePage';
 import SplashScreen from '../pages/SplashScreenPage';
-import HomePageAddReview from '../pages/HomePageAddReview';
 import HomePageDetails from '../pages/HomePageDetails';
 
-import Testing from '../pages/testing';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,10 +22,8 @@ const HomeStack = () => {
       <Stack.Screen name="Login Page" component={Login} />
       <Stack.Screen name="Home Page" component={HomePage} />
       <Stack.Screen name="Register Page" component={Register} />
-      <Stack.Screen name="Home PAge Details" component={HomePageDetails} />
-      <Stack.Screen name="Home Page Add Review" component={HomePageAddReview} />
+      <Stack.Screen name="Home Page Details" component={HomePageDetails} />
       <Stack.Screen name="MyTab" component={MyTab} />
-      <Stack.Screen name="Testing" component={Testing} />
     </Stack.Navigator>
   );
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, View, TextInput, Text, TouchableOpacity} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
 
 import Logo from '../../src/assets/Team-G.svg';
 
