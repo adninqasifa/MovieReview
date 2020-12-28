@@ -16,6 +16,7 @@ export default function Home({ navigation }) {
   ]);
   return (
     <View style={styles.container}>
+      <Text style={{color: '#E5E5E5'}}> All Reviews </Text>
       <FlatList data={reviews} renderItem={({ item }) => (
         <Card>
           <Text>{ item.title }</Text>

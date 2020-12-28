@@ -2,11 +2,11 @@ import ACTION from '../types';
 
 const initialState = {
   visible: false,
-  release_date: '1111',
-  backdrop_path: '',
-  poster_path: '',
-  original_title: '',
-  overview: '',
+  released: '1988',
+  //backdrop_path: '',
+  poster: '',
+  title: '',
+  synopsis: '',
   vote_average: '',
   vote_count: '',
   genres: [{id: '', name: ''}],

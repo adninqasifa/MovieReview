@@ -18,7 +18,7 @@ const ModalDetail = ({params}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const modalDetails = useSelector((state) => state.details);
-  console.log(modalDetails);
+  //console.log(modalDetails);
   return (
     <Modal
       animationType="slide"
@@ -33,7 +33,7 @@ const ModalDetail = ({params}) => {
             <Image
               source={{uri:`https://image.tmdb.org/t/p/w500/${modalDetails.backdrop_path}`}}
               style={{width:Dimensions.get('window').width * 0.80, height: Dimensions.get('window').height*0.3}}/>
-            <Text numberOfLines={2} style={{fontSize: 18, fontWeight:"bold", margin: 5}}>{modalDetails.original_title} ({modalDetails.release_date.substring(0,4)}) - {modalDetails.genres[0].name}</Text>
+            <Text numberOfLines={2} style={{fontSize: 18, fontWeight:"bold", margin: 5}}>{modalDetails.original_title} ({modalDetails.released}) - {modalDetails.genres[0].name}</Text>
             <View style={{flexDirection:"row"}}>
               <Image
                 source={{uri:`https://image.tmdb.org/t/p/w500/${modalDetails.poster_path}`}}
@@ -57,7 +57,11 @@ const ModalDetail = ({params}) => {
           </View>
           <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
             <TouchableOpacity
-              style={{flexDirection: 'row', alignItems: 'center'}}>
+              style={{flexDirection: 'row', alignItems: 'center'}}
+              onPress={()=>{
+                navigation.navigate("Review Page", {movie_id: `${modalDetails.id}`, name: `Reviews' of ${modalDetails.original_title}`})
+                dispatch(chVisibility(false))
+              }}>
               <Entypo name="message" size={30} color="#343434" />
               <Text style={{fontSize: 18}}> {modalDetails.vote_count}</Text>
             </TouchableOpacity>

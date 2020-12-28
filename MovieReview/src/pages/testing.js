@@ -21,12 +21,8 @@ const HomePage = ({navigation}) => {
   const dispatch = useDispatch();
   const [movies, setMovies] = useState('');
   const [categories, setCategories] = useState('All');
-  const [idMovie, setIdMovie] = useState(1);
+  const [idMovie, setIdMovie] = useState(0);
   const movieListHomePage = useSelector((state) => state.listed);
-
-  useEffect(() => {
-    console.log("Ini Home Page");
-  },[]);
 
   useEffect(() => {
     dispatch(chList(idMovie));
@@ -53,11 +49,8 @@ const HomePage = ({navigation}) => {
           onPress={() => {
             setIdMovie(item.id);
             setCategories(item.category);
-            //getMoviesByGenre()
           }}>
-          <Text style={{fontSize: 17, color: categories == item.category}}>
-            {item.category}
-          </Text>
+          <Text style={{fontSize: 17, color: categories == item.category}}> {item.category}</Text>
         </TouchableOpacity>
       );
     };
@@ -77,15 +70,15 @@ const HomePage = ({navigation}) => {
       return (
         <View style={{alignItems: 'center'}}>
           <Card
-            title={item.title}
-            synopsis={item.synopsis}
-            imageSource={item.poster}
-            //backDrop={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}
+            title={item.original_title}
+            synopsis={item.overview}
+            imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+            backDrop={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}
             average_rating={item.vote_average}
-            releaseDate={item.released}
+            releaseDate={item.release_date}
             genre={categories}
             idOfMovie={item.id}
-            rating_count={item.rating}
+            rating_count={item.vote_count}
           />
         </View>
       );

@@ -25,27 +25,20 @@ const Card = ({
   rating_count,
 }) => {
   const navigation = useNavigation();
-  const year = releaseDate.substring(0,4);
+  const year = releaseDate;
   const dispatch = useDispatch();
   return (
     <View style={styles.cardMovie}>
       <View style={{flex: 1, alignItems: 'center', margin: 10}}>
         <TouchableOpacity
-          onPress={() => {
-            dispatch(chDetail(idOfMovie));
-          }}>
-          <Image source={{uri: backDrop}} style={styles.imageMovie} />
+          onPress={() => navigation.push('Home Page Details', {imageSource, title, synopsis, backDrop})}>
+          <Image source={{uri: imageSource}} style={styles.imageMovie} />
           <Text style={styles.title}>
             {title} ({year})
           </Text>
           <Text numberOfLines={2} style={styles.synopsis}>
             {synopsis}
           </Text>
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity>
-          <Entypo name="message" size={30} color="#343434" />
         </TouchableOpacity>
       </View>
     </View>
@@ -79,8 +72,7 @@ const styles = StyleSheet.create({
   },
 });
 
-//onPress={() => navigation.push('Home Page Details')}>
-
+// onPress={() => navigation.push('Home Page Details', {id: idOfMovie})}>
 // onPress={() => {
 //   dispatch(chDetail(idOfMovie));
 // }}>

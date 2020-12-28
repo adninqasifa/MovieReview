@@ -2,57 +2,97 @@ import React from 'react';
 import {
   Text,
   View,
-  Modal,
   Image,
   Dimensions,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+
 import {useSelector, useDispatch} from 'react-redux';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
+import Entypo from 'react-native-vector-icons/Entypo';
+import ModalStar from '../components/ModalStar';
+import {chVisibility, showForm} from '../store/action';
 
-import {chVisibility} from '../store/action';
+const ModalDetail = ({params, route}) => {
+  const imageURL = route.params.imageSource;
+  const originalTitle = route.params.title;
+  const sinopsis = route.params.synopsis;
+  const poster = route.params.backDrop;
+  //const genres = route.params.genre;
+  //const rating = route.params.average_rating;
 
-const HomePageDetails = ({params}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const modalDetails = useSelector(state => state.details);
-  //console.log(modalDetails.backdrop_path);
+  const modalDetails = useSelector((state) => state.details);
+  //console.log(modalDetails);
   return (
-    <View
-      style={styles.container}
-      //animationType="slide"
-      //transparent={true}
-      //visible={item.visible}
-      //onRequestClose={() => {
-        //dispatch(chVisibility(false));
-      >
-      <Text style={{color: '#E5E5E5'}}> Home Page Details </Text>
-      <Text style={{color: '#E5E5E5'}}> Modal Star </Text>
-      <Text style={{color: '#E5E5E5'}}> Mirip Modal Details </Text>
-      <Image
-        source={{uri:`https://image.tmdb.org/t/p/w500/${modalDetails.backdrop_path}`}}
-          style={{width:Dimensions.get('window').width * 0.80, height: Dimensions.get('window').height*0.3}}/>
-      <Image
-        source={{uri:`https://image.tmdb.org/t/p/w500/${modalDetails.poster_path}`}}/>
-      <Image style={styles.foto}
-        source={require("../assets/adninqasifa.jpg")}/>
+    <View style={styles.container}
+      animationType="slide"
+      transparent={true}
+      visible={modalDetails.visible}
+      onRequestClose={() => {
+        dispatch(chVisibility(false));
+      }}>
+        <ModalStar />
+        <Text style={{color: '#E5E5E5'}}> Home Page Details </Text>
+        <View style={styles.cardMovie}>
+          <View style={{flexDirection: 'column', alignItems:"center"}}>
+            <Image
+              source={{uri:imageURL}}
+              style={{width:Dimensions.get('window').width * 0.7, height: Dimensions.get('window').height*0.3}}/>
+            <Text numberOfLines={2} style={{color:'#343434', fontSize: 18, fontWeight:"bold", margin: 5}}>{originalTitle} ({modalDetails.released}) - {modalDetails.genres[0].name}</Text>
+            <View style={{flexDirection:"row"}}>
+              <View style={{flex: 1, alignItems:"flex-end", flexDirection:"column"}}>
+                <View style={{flexDirection:"row"}}>
+                  <View style={{flexDirection: "column", alignItems: "center", right: 15}}>
+                    <Entypo name="star" size={25} color='#E5E5E5' />
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={{color:'#343434', fontWeight: "bold"}}>{modalDetails.vote_average}</Text><Text style={{color:'#343434'}}>/10</Text>
+                    </View>
+                  </View>
+                  <TouchableOpacity style={{alignItems: "center"}} onPress={()=>{dispatch(showForm(true))}}>
+                    <Entypo name="star" size={25} color='#343434' />
+                    <Text style={{color:'#343434'}}>Rate This</Text>
+                  </TouchableOpacity>
+                </View>
+                <Text numberOfLines={7} style={{color:'#343434', fontSize: 17, left:5, textAlign:"justify"}}>{sinopsis}</Text>
+              </View>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+            <TouchableOpacity
+              style={{flexDirection: 'row', alignItems: 'center'}}
+              onPress={()=>{
+                navigation.navigate("Review Page", {movie_id: `${modalDetails.id}`, name: `Reviews' of ${originalTitle}`})
+                dispatch(chVisibility(false))
+              }}>
+              <Entypo name="message" size={30} color='#343434' />
+              <Text style={{fontSize: 18}}> {modalDetails.vote_count}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
     </View>
   );
-}
+};
 
-export default HomePageDetails;
+export default ModalDetail;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#343434',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#343434',
   },
-  foto: {
-    width: 100,
-    height: 100,
+  cardMovie: {
+    flex: 1,
+    padding: 10,
+    borderRadius: 25,
+    borderWidth: 5,
+    marginTop: 80,
+    marginBottom: 90,
+    backgroundColor: '#FCA311',
+    width: Dimensions.get('screen').width * 0.9,
   },
 });

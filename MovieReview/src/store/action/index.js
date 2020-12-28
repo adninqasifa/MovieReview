@@ -27,3 +27,19 @@ export const showForm = (payload) => {
 export const registrationForm = (payload) => {
   return {type: ACTION.REGISTERED_REQUESTED, payload: payload};
 };
+
+export const loginForm = (payload) => {
+  return {type: ACTION.LOGIN_REQUESTED, payload: payload};
+};
+
+export const resetError = () => {
+  return {type: ACTION.RESET_ERROR};
+};
+
+export const changeRedirect = () => {
+  return {type: ACTION.CHANGE_REDIRECT};
+};
+
+export const getUserProfile = (payload) => {
+  return {type:ACTION.REQUEST_USER_PROFILE, payload: payload};
+};
