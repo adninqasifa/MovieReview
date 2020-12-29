@@ -12,8 +12,6 @@ import SplashScreen from '../pages/SplashScreenPage';
 import YourReviewPage from '../pages/YourReviewPage';
 import HomePageDetails from '../pages/HomePageDetails';
 
-import Testing from '../pages/testing';
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +25,6 @@ const HomeStack = () => {
       <Stack.Screen name="Review Page" component={ReviewPage} />
       <Stack.Screen name="Home Page Details" component={HomePageDetails} />
       <Stack.Screen name="MyTab" component={MyTab} />
-      <Stack.Screen name="Testing" component={Testing} />
     </Stack.Navigator>
   );
 };

@@ -21,15 +21,29 @@ const HomePage = ({navigation}) => {
   const dispatch = useDispatch();
   const [movies, setMovies] = useState('');
   const [categories, setCategories] = useState('All');
-  const [idMovie, setIdMovie] = useState(1);
+  const [idMovie, setIdMovie] = useState("1");
   const movieListHomePage = useSelector((state) => state.listed);
 
-  useEffect(() => {
-    console.log("Ini Home Page");
-  },[]);
+  // useEffect(() => {
+  //   if (categories != 'All') {
+  //     //alert(categories)
+  //     dispatch(chList(categories))
+  //     //setCategories(item.category)
+  //   //  console.log(categories);
+  //   //  console.log(idMovie)
+  //   }
+  // }, [categories])
+  //
+  // // useEffect(() => {
+  // //   console.log("Ini Home Page");
+  // // },[]);
+  //
+  // useEffect(() => {
+  //   dispatch(chList(categories));
+  // },[]);
 
   useEffect(() => {
-    dispatch(chList(idMovie));
+    dispatch(chList(idMovie))
   },[idMovie]);
 
   function search() {
@@ -50,10 +64,16 @@ const HomePage = ({navigation}) => {
       return (
         <TouchableOpacity
           style={styles.button}
+          // onPress={() => {
+          //   setIdMovie(item._id)
+          //   setCategories(item.category)
+          //   //console.log(category);
+          //   //getMoviesByGenre()
+          // }}>
           onPress={() => {
-            setIdMovie(item.id);
+          //  console.log('ini item dari homepage',item)
+            setIdMovie(item._id)
             setCategories(item.category);
-            //getMoviesByGenre()
           }}>
           <Text style={{fontSize: 17, color: categories == item.category}}>
             {item.category}
@@ -66,7 +86,7 @@ const HomePage = ({navigation}) => {
         data={Categories}
         horizontal
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id}
         renderItem={renderItem}
       />
     );
@@ -77,15 +97,15 @@ const HomePage = ({navigation}) => {
       return (
         <View style={{alignItems: 'center'}}>
           <Card
-            title={item.title}
-            synopsis={item.synopsis}
-            imageSource={item.poster}
+            title={item.title} //original_title //title
+            synopsis={item.synopsis} //overview //synopsis
+            imageSource={item.poster} //{`https://image.tmdb.org/t/p/w500/${item.poster_path}`} //{item.poster}
             //backDrop={`https://image.tmdb.org/t/p/w500/${item.backdrop_path}`}
             average_rating={item.vote_average}
-            releaseDate={item.released}
+            releaseDate={item.released} //release_date //released
             genre={categories}
-            idOfMovie={item.id}
-            rating_count={item.rating}
+            idOfMovie={item._id}
+            rating_count={item.rating} //vote_count //rating
           />
         </View>
       );

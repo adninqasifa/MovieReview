@@ -57,11 +57,6 @@ const Login = ({navigation}) => {
         <Text style={{color: '#E5E5E5'}}>Don't have an account?</Text>
         <Text style={{color: '#FCA311'}} onPress={() => navigation.push('Register Page')}> Sign Up</Text>
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.push('Testing')}>
-        <Text style={styles.buttonText}>TESTING</Text>
-      </TouchableOpacity>
     </View>
   );
 };

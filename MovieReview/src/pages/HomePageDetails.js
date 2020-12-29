@@ -30,7 +30,7 @@ const ModalDetail = ({params, route}) => {
     <View style={styles.container}
       animationType="slide"
       transparent={true}
-      visible={modalDetails.visible}
+      //visible={modalDetails.visible}
       onRequestClose={() => {
         dispatch(chVisibility(false));
       }}>

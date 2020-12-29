@@ -3,37 +3,58 @@ import {takeLatest, call, put} from 'redux-saga/effects';
 import axios from 'axios';
 import qs from 'qs';
 
-//'https://api.themoviedb.org/3/trending/movie/day?api_key=a0780226bee6658e557a71b66335aefd',
-//http://ec2-54-254-205-124.ap-southeast-1.compute.amazonaws.com:3000/movie?page=1&limit=20
+// function getListMovies(payload) {
+//   if (payload == 1 || payload == 0){
+//     return axios
+//       .get(
+//         'https://api.themoviedb.org/3/trending/movie/day?api_key=a0780226bee6658e557a71b66335aefd',
+//       )
+//       .then((e) => e.data.results)
+//       .catch((error) => error);
+//   }
+//   return axios
+//     .get(
+//       `https://api.themoviedb.org/3/discover/movie?api_key=a0780226bee6658e557a71b66335aefd&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&with_genres=${payload}`,
+//     )
+//     .then((e) => e.data.results)
+//     .catch((error) => error);
+// }
+
 function getListMovies(payload) {
-  // if (payload == 1 || payload == 0){
-     console.log("ini GetList Movies");
-  //   //console.log(payload);
-  //   return axios
-  //     .get(
-  //       'https://api.themoviedb.org/3/trending/movie/day?api_key=a0780226bee6658e557a71b66335aefd',
-  //     )
-  //     .then((e) => e.data.results)
-  //     .catch((error) => error);
-  // }
-    return axios
-      .get(
-        'http://ec2-54-254-205-124.ap-southeast-1.compute.amazonaws.com:3000/movie?page=1&limit=20'
-    )
-    // .get(
-    //   `https://api.themoviedb.org/3/discover/movie?api_key=a0780226bee6658e557a71b66335aefd&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&with_genres=${payload}`,
-    // )
-    .then((e) => e.data.data)
-      //console.log(e.data);
-    .catch((error) => error)
+  return axios
+  .get(
+    'http://54.254.205.124:3000/movie'
+  )
+  .then((e) => e.data.data)
+  .catch((error) => error)
 }
+
+// function getListMovies(payload) {
+//   if (payload == "All" || payload == ""){
+//     return axios
+//       .get(
+//         'http://54.254.205.124:3000/movie'
+//       )
+//       .then(e => e.data.results)
+//       .catch((error) => error)
+//   }
+//   return axios
+//     .get(
+//       `http://54.254.205.124:3000/category=${payload}`
+//     )
+//     .then(e => e.data.results)
+//     .catch((error) => error)
+// }
 
 // function getMoviesByGenre(payload) {
 //   return axios
 //     .get(
-//       `http://ec2-18-141-187-211.ap-southeast-1.compute.amazonaws.com:3000/category=${payload}`
+//       `http://54.254.205.124:3000/category`,
 //     )
-//     .then(e) => e.data.data
+//     .then((e) => {
+//       e.data.data
+//       console.log(e.data);
+//     })
 //     .catch((error) => error)
 // }
 
@@ -45,10 +66,10 @@ function getModalDetails(payload) {
     .then((e) => e.data)
     .catch((error) => error);
 }
-//'http://ec2-18-141-187-211.ap-southeast-1.compute.amazonaws.com:3000/user/signup';
+//'http://ec2-54-254-205-124.ap-southeast-1.compute.amazonaws.com:3000/user/signup';
 //'https://poster-movies.herokuapp.com/register';
 async function handlingRegister(payload) {
-  let url = 'http://ec2-18-141-187-211.ap-southeast-1.compute.amazonaws.com:3000/user/signup';
+  let url = 'http://ec2-54-254-205-124.ap-southeast-1.compute.amazonaws.com:3000/user/signup';
   const res = await axios({
     method: 'POST',
     url,
@@ -69,7 +90,7 @@ async function handlingRegister(payload) {
 //http://ec2-18-141-187-211.ap-southeast-1.compute.amazonaws.com:3000/user/login
 //'https://poster-movies.herokuapp.com/login';
 async function handlingLogin(payload) {
-  let url = 'http://ec2-18-141-187-211.ap-southeast-1.compute.amazonaws.com:3000/user/login';
+  let url = 'http://ec2-54-254-205-124.ap-southeast-1.compute.amazonaws.com:3000/user/login';
   const res = await axios({
     method: 'POST',
     url,
@@ -102,10 +123,18 @@ function* changePass({payload}) {
 }
 
 function* changeList({payload}) {
-  console.log("Ini Change List");
+  //console.log("Ini Change List");
   try {
     const results = yield call(getListMovies, payload);
-    console.log("ini results", results);
+    // let n = []
+    // console.log(payload)
+    // results.forEach((el) => {
+    //   if (el.category[0].name == payload) {
+    //     n.push(el)
+    //   }
+    //   //console.log(el.category[0].name == payload);
+    // })
+    // console.log(n);
     yield put({type: ACTION.SET_LIST_HOME_PAGE, payload: results})
   } catch (e) {
     console.log(e.message);
